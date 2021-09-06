@@ -3,51 +3,50 @@
 <head>
         <meta charset="utf-8" />
         <meta name="generator" content="Pelican" />
-        <title>Darren Wiens' Personal Website</title>
+        <title>Darren Wiens</title>
         <link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/main.css" />
-        <link href="https://darrenwiens.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Darren Wiens' Personal Website Atom Feed" />
+        <link href="https://darrenwiens.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Darren Wiens Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="https://darrenwiens.github.io/">Darren Wiens' Personal Website</a></h1>
+                <h1><a href="https://darrenwiens.github.io/">Darren Wiens</a></h1>
                 <nav><ul>
-                    <li><a href="https://darrenwiens.github.io/category/review.html">Review</a></li>
+                    <li><a href="https://darrenwiens.github.io/category/experiments.html">Experiments</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://darrenwiens.github.io/my-first-review.html">My First Review</a></h1>
+                    <h1 class="entry-title"><a href="https://darrenwiens.github.io/query-planetlabs-api-from-slackhq.html">Query Planetlabs API from SlackHQ</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2010-12-03T10:20:00-08:00">
-                Published: Fri 03 December 2010
+        <abbr class="published" title="2018-03-23T00:00:00-07:00">
+                Published: Fri 23 March 2018
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="https://darrenwiens.github.io/author/darren-wiens.html">Darren Wiens</a>
         </address>
-<p>In <a href="https://darrenwiens.github.io/category/review.html">Review</a>.</p>
+<p>In <a href="https://darrenwiens.github.io/category/experiments.html">Experiments</a>.</p>
+<p>tags: <a href="https://darrenwiens.github.io/tag/planet.html">planet</a> <a href="https://darrenwiens.github.io/tag/slack.html">slack</a> <a href="https://darrenwiens.github.io/tag/api.html">api</a> <a href="https://darrenwiens.github.io/tag/microservice.html">microservice</a> <a href="https://darrenwiens.github.io/tag/serverless.html">serverless</a> <a href="https://darrenwiens.github.io/tag/python.html">python</a> </p>
+</footer><!-- /.post-info --><p>Lately I’ve been looking into microservices and webhooks, and along the way made a slash command in <a href="https://slack.com/">Slack</a> that will query the <a href="https://www.planet.com/">Planet</a> image catalog and return matching image IDs. Here’s how:</p>
+<p>1.) Make yourself a microservice. I used <a href="http://hook.io/">hook.io</a> because it’s free, and I’m cheap. The code I used is <a href="https://github.com/darrenwiens/slack-planet-catalog/blob/master/microservice.py">here</a>. Basically, it receives a request from Slack (including your api key, item type, asset type, cloud cover limit, and bounding box), formats it into a Planet-friendly query, sends the request to Planet, and returns the response to Slack when it’s ready.</p>
+<p>2.) Create a new slash command in Slack. Make sure you set the request URL to your microservice above. I called my slash command ‘/planetcatalog’, but you can use whatever you want.</p>
+<p>3.) Install your slash command in Slack.</p>
+<p>4.) Run the command, like so (this isn’t a real api key – you’ll need your own):</p>
+<div class="highlight"><pre><span></span><code>/planetcatalog a44eb36fe3854f1db1ebXXXdff1a1a3f | PSScene4Band | analytic_sr | 0.1 | {u&#39;type&#39;: u&#39;Polygon&#39;, u&#39;coordinates&#39;: [[[-118.364429, 34.0597], [-118.364429, 34.061552], [-118.362153, 34.061552], [-118.362153, 34.0597], [-118.364429, 34.0597]]]}
+</code></pre></div>
 
-</footer><!-- /.post-info --><p>Following is a review of my favorite mechanical keyboard.</p>                </article>
+<p>The result should be a list of image IDs. Enjoy!</p>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>links</h2>
-                        <ul>
-                            <li><a href="https://getpelican.com/">Pelican</a></li>
-                            <li><a href="https://www.python.org/">Python.org</a></li>
-                            <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
                 <div class="social">
                         <h2>social</h2>
                         <ul>
                             <li><a href="https://darrenwiens.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
+                            <li><a href="http://twitter.com/dkwiens">twitter</a></li>
+                            <li><a href="http://github.com/darrenwiens">github</a></li>
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->
