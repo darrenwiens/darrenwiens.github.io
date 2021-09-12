@@ -6,17 +6,17 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 		<!-- Metadata -->
-			<meta name="description" content="" />
-			<meta property="og:description" content="" />
-			<meta property="og:title" content="Darren Wiens" />
-			<meta property="og:type" content="website" />
-			<meta property="og:url" content="https://darrenwiens.github.io" />
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="AWS Slack Slash Command CDK Template" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://darrenwiens.github.io/aws-slack-slash-command-cdk-template.html" />
 		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
 
 		<!-- Enable responsiveness on mobile devices-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-		<title>Darren Wiens - api tag</title>
+		<title>Darren Wiens</title>
 
 		<!-- CSS -->
 		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
@@ -62,34 +62,24 @@
 		</nav>
 	</div>
 </div>		<div class="content container">
-	<div class="posts">
-			<div class="post">
-				<h1 class="post-title" href="https://darrenwiens.github.io/aws-slack-slash-command-cdk-template.html">
-					<a href="https://darrenwiens.github.io/aws-slack-slash-command-cdk-template.html">AWS Slack Slash Command CDK Template</a>
-				</h1>
-				<span class="post-date">Fri 11 September 2020</span>
-				<p>
-					<p>An AWS CDK template that creates the basis for a Slack slash command</p>
-				</p>
-				<a class="read-more" href="aws-slack-slash-command-cdk-template.html">Continue reading »</a>
-			</div>
-			<div class="post">
-				<h1 class="post-title" href="https://darrenwiens.github.io/query-planetlabs-api-from-slackhq.html">
-					<a href="https://darrenwiens.github.io/query-planetlabs-api-from-slackhq.html">Query Planetlabs API from SlackHQ</a>
-				</h1>
-				<span class="post-date">Fri 23 March 2018</span>
-				<p>
-					
-				</p>
-				<a class="read-more" href="query-planetlabs-api-from-slackhq.html">Continue reading »</a>
-			</div>
-	</div>
-	<div class="pagination">
-
-		<span class="pagination-item older">Newer</span>
-
-		<span class="pagination-item newer">Older</span>
-	</div>
+<div class="post">
+	<h1 class="post-title">AWS Slack Slash Command CDK Template</h1>
+	<span class="post-date">Fri 11 September 2020</span>
+	<p>On the face of it, making a <a href="https://slack.com/">Slack</a> slash command isn't complicated:</p>
+<ul>
+<li>set up a slash command through the Slack UI that points to an endpoint</li>
+<li>when executed, the slash command sends a POST request to the endpoint</li>
+<li>the code within the endpoint then hopefully does something, and possibly returns a result of some kind to Slack</li>
+</ul>
+<p>In practice, there are many subtleties inherent in making a functional Slack slash command app, which (hopefully) you will find managed by <a href="https://github.com/darrenwiens/slack-app-template">this AWS CDK template</a>.</p>
+<p>This template does a few things for you:</p>
+<ul>
+<li>creates an API Gateway, set up for cross-domain POST requests</li>
+<li>creates a <code>main</code> lambda function, which invokes the <code>worker</code> lambda function, but also always immediately returns a successful 200 response to Slack</li>
+<li>creates a <code>worker</code> lambda function, which executes the business logic of the slash command. When the slash command is first invoked, this lambda displays a modal window. When the modal is submitted, this lambda is invoked again to create and return an ephemeral Slack message to the channel, containing the text contents of the modal window.</li>
+</ul>
+<p>Hopefully you find this CDK template useful. I'll be interested to hear if you make use of it!</p>
+</div>
 		</div>
 	</body>
 </html>

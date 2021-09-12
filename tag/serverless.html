@@ -1,61 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <meta name="generator" content="Pelican" />
-        <title>Darren Wiens - serverless</title>
-        <link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/main.css" />
-</head>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="https://darrenwiens.github.io/">Darren Wiens</a></h1>
-                <nav><ul>
-                    <li><a href="https://darrenwiens.github.io/category/experiments.html">Experiments</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
+		<!-- Metadata -->
+			<meta name="description" content="" />
+			<meta property="og:description" content="" />
+			<meta property="og:title" content="Darren Wiens" />
+			<meta property="og:type" content="website" />
+			<meta property="og:url" content="https://darrenwiens.github.io" />
+		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://darrenwiens.github.io/query-planetlabs-api-from-slackhq.html">Query Planetlabs API from SlackHQ</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2018-03-23T00:00:00-07:00">
-                Published: Fri 23 March 2018
-        </abbr>
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://darrenwiens.github.io/author/darren-wiens.html">Darren Wiens</a>
-        </address>
-<p>In <a href="https://darrenwiens.github.io/category/experiments.html">Experiments</a>.</p>
-<p>tags: <a href="https://darrenwiens.github.io/tag/planet.html">planet</a> <a href="https://darrenwiens.github.io/tag/slack.html">slack</a> <a href="https://darrenwiens.github.io/tag/api.html">api</a> <a href="https://darrenwiens.github.io/tag/microservice.html">microservice</a> <a href="https://darrenwiens.github.io/tag/serverless.html">serverless</a> <a href="https://darrenwiens.github.io/tag/python.html">python</a> </p>
-</footer><!-- /.post-info --><p>Lately I’ve been looking into microservices and webhooks, and along the way made a slash command in <a href="https://slack.com/">Slack</a> that will query the <a href="https://www.planet.com/">Planet</a> image catalog and return matching image IDs. Here’s how:</p>
-<p>1.) Make yourself a microservice. I used <a href="http://hook.io/">hook.io</a> because it’s free, and I’m cheap. The code I used is <a href="https://github.com/darrenwiens/slack-planet-catalog/blob/master/microservice.py">here</a>. Basically, it receives a request from Slack (including your api key, item type, asset type, cloud cover limit, and bounding box), formats it into a Planet-friendly query, sends the request to Planet, and returns the response to Slack when it’s ready.</p>
-<p>2.) Create a new slash command in Slack. Make sure you set the request URL to your microservice above. I called my slash command ‘/planetcatalog’, but you can use whatever you want.</p>
-<p>3.) Install your slash command in Slack.</p>
-<p>4.) Run the command, like so (this isn’t a real api key – you’ll need your own):</p>
-<div class="highlight"><pre><span></span><code>/planetcatalog a44eb36fe3854f1db1ebXXXdff1a1a3f | PSScene4Band | analytic_sr | 0.1 | {u&#39;type&#39;: u&#39;Polygon&#39;, u&#39;coordinates&#39;: [[[-118.364429, 34.0597], [-118.364429, 34.061552], [-118.362153, 34.061552], [-118.362153, 34.0597], [-118.364429, 34.0597]]]}
-</code></pre></div>
+		<title>Darren Wiens - serverless tag</title>
 
-<p>The result should be a list of image IDs. Enjoy!</p>                </article>
-            </aside><!-- /#featured -->
-        <section id="extras" class="body">
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
 
-                            <li><a href="http://twitter.com/dkwiens">twitter</a></li>
-                            <li><a href="http://github.com/darrenwiens">github</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
-                </address><!-- /#about -->
+		<!-- Feeds -->
 
-                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
+		<!-- Analytics -->
+	</head>
 
-</body>
+	<body class="theme-base-08">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="https://darrenwiens.github.io/images/face.png">
+					Darren Wiens
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+			<a class="sidebar-social-item" href="https://darrenwiens.github.io/">
+				<i class="fa fa-rss"></i>
+			</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+	<div class="posts">
+			<div class="post">
+				<h1 class="post-title" href="https://darrenwiens.github.io/aws-slack-slash-command-cdk-template.html">
+					<a href="https://darrenwiens.github.io/aws-slack-slash-command-cdk-template.html">AWS Slack Slash Command CDK Template</a>
+				</h1>
+				<span class="post-date">Fri 11 September 2020</span>
+				<p>
+					<p>An AWS CDK template that creates the basis for a Slack slash command</p>
+				</p>
+				<a class="read-more" href="aws-slack-slash-command-cdk-template.html">Continue reading »</a>
+			</div>
+			<div class="post">
+				<h1 class="post-title" href="https://darrenwiens.github.io/query-planetlabs-api-from-slackhq.html">
+					<a href="https://darrenwiens.github.io/query-planetlabs-api-from-slackhq.html">Query Planetlabs API from SlackHQ</a>
+				</h1>
+				<span class="post-date">Fri 23 March 2018</span>
+				<p>
+					
+				</p>
+				<a class="read-more" href="query-planetlabs-api-from-slackhq.html">Continue reading »</a>
+			</div>
+	</div>
+	<div class="pagination">
+
+		<span class="pagination-item older">Newer</span>
+
+		<span class="pagination-item newer">Older</span>
+	</div>
+		</div>
+	</body>
 </html>
