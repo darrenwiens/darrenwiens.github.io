@@ -74,10 +74,10 @@ ga('send', 'pageview');
 <div class="post">
 	<h1 class="post-title">AWS Slack Slash Command CDK Template</h1>
 	<span class="post-date">Fri 11 September 2020</span>
-	<p>On the face of it, making a <a href="https://slack.com/">Slack</a> slash command isn't complicated:</p>
+	<p>On the face of it, making a <a href="https://slack.com/">Slack</a> slash command sounds relatively straight forward:</p>
 <ul>
 <li>set up a slash command through the Slack UI that points to an endpoint</li>
-<li>when executed, the slash command sends a POST request to the endpoint</li>
+<li>when the slash command is executed, Slack sends a POST request to the endpoint</li>
 <li>the code within the endpoint then hopefully does something, and possibly returns a result of some kind to Slack</li>
 </ul>
 <p>In practice, there are many subtleties inherent in making a functional Slack slash command app, which (hopefully) you will find managed by <a href="https://github.com/darrenwiens/slack-app-template">this AWS CDK template</a>.</p>
