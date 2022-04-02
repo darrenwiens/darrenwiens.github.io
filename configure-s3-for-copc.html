@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="Configure S3 for COPC" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://darrenwiens.github.io/configure-s3-for-copc.html" />
+		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>Darren Wiens</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-207412040-1', 'auto');
+ga('send', 'pageview');
+</script>
+	</head>
+
+	<body class="theme-base-08">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="https://darrenwiens.github.io/images/face.png">
+					Darren Wiens
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+			<a class="sidebar-social-item" href="https://darrenwiens.github.io/">
+				<i class="fa fa-rss"></i>
+			</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">Configure S3 for COPC</h1>
+	<span class="post-date">Fri 01 April 2022</span>
+	<p><strong>Disclaimer: I'm pretty basic as far as security/AWS devops goes, so you should consider this <em>a way</em> to host cloud optimized point cloud files, definitely not <em>the way</em>.</strong></p>
+<p>First off, I highly recommend Bert Temme's excellent <a href="https://bertt.wordpress.com/2022/03/29/cloud-optimized-point-cloud-copc/">blog post</a> about creating <a href="https://copc.io/">cloud optimized point cloud</a> (COPC) files using <a href="https://pdal.io/">PDAL</a> (version 2.4+ to take advantage of COPC reader/writer).</p>
+<p>This blog post explains how I created a COPC from <a href="https://www2.gov.bc.ca/gov/content/data/geographic-data-services/lidarbc">LiDAR BC</a>, configured <a href="https://docs.aws.amazon.com/s3/index.html">AWS S3</a> for storage/hosting, and displayed the file on the <a href="https://viewer.copc.io/">COPC Viewer</a>.</p>
+<h2>Get the data</h2>
+<p>I downloaded LAZ data from <a href="https://www2.gov.bc.ca/gov/content/data/geographic-data-services/lidarbc">LiDAR BC</a>. It's a nice, basic GUI for data download. Find the tile, download the data. In my case, I downloaded a <strong>177 MB</strong> LAZ file.</p>
+<p><img alt="LiDAR BC Download" src="https://darrenwiens.github.io/images/lidarbc.gif"></p>
+<h2>Convert LAZ to COPC</h2>
+<p>I converted my LAZ file to COPC with the following <a href="https://pdal.io/">PDAL</a> Python script:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pdal</span>
+
+<span class="n">json</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">[</span>
+<span class="s2">    {</span>
+<span class="s2">        &quot;type&quot;:&quot;readers.las&quot;,</span>
+<span class="s2">        &quot;filename&quot;:&quot;/path/to/input.laz&quot;</span>
+<span class="s2">    },</span>
+<span class="s2">    {</span>
+<span class="s2">        &quot;type&quot;:&quot;writers.copc&quot;,</span>
+<span class="s2">        &quot;filename&quot;:&quot;/path/to/output.copc.laz&quot;</span>
+<span class="s2">    }</span>
+<span class="s2">]</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">pdal</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</code></pre></div>
+
+<p>The resulting file ballooned somewhat to <strong>499 MB</strong>, but hey, it's cloud optimized.</p>
+<h2>Upload to AWS S3 and Configure for Display</h2>
+<p>You can use whatever hosting or cloudprovider you like, but this is how I set up <a href="https://docs.aws.amazon.com/s3/index.html">AWS S3</a>.</p>
+<p>First step, upload.</p>
+<p>Second step, configure CORS. I will explain CORS in a future blog post<sup><a href="#cors">1</a></sup>, but suffice it to say that by configuring CORS on the S3 bucket, we can restrict the methods allowed to interact with files (in this case, <code>GET</code>) and the domains from which they can originate (in this case, <code>https://viewer.copc.io</code>). The CORS configuration I added to my S3 bucket, under the Permissions tab, was:</p>
+<div class="highlight"><pre><span></span><code>[
+    {
+        &quot;AllowedHeaders&quot;: [
+            &quot;*&quot;
+        ],
+        &quot;AllowedMethods&quot;: [
+            &quot;GET&quot;
+        ],
+        &quot;AllowedOrigins&quot;: [
+            &quot;https://viewer.copc.io&quot;
+        ],
+        &quot;ExposeHeaders&quot;: [
+            &quot;x-amz-server-side-encryption&quot;,
+            &quot;x-amz-request-id&quot;,
+            &quot;x-amz-id-2&quot;
+        ],
+        &quot;MaxAgeSeconds&quot;: 300
+    }
+]
+</code></pre></div>
+
+<h2>Generate a Presigned URL</h2>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html">S3 Presigned URLs</a> are magical things that allow you to temporarily attach your own permissions to an S3 URL, so someone else can do something with a file. In this case, I want a viewer to be able to download chunks of a point cloud by pointing it to a URL, but I don't want to make my file completely public for anyone to download, and I don't want to set up authorization between the viewer and my file. I get the added peace of mind that the url will expire in a certain amount of time, so absolutely no one will be able to use the URL later. Generate a presigned URL in your preferred method (CLI or GUI).</p>
+<h2>View the COPC</h2>
+<p><a href="https://hobu.co/">Hobu</a> has kindly provided a COPC viewer <a href="https://viewer.copc.io/">here</a>. The UX is about as straighforward as possible: paste your presigned URL where it says "Add a Point Cloud". In the process of making the animation below, I downloaded approximately <strong>250 MB</strong> through the browser.</p>
+<p><img alt="LiDAR BC Download" src="https://darrenwiens.github.io/images/mr_pg_copc.gif"></p>
+<p>That is all. As always get in touch with me on <a href="https://twitter.com/dkwiens">Twitter</a> if you want to talk more about this! I'd be very interested to know better strategies for configuring S3 for hosting/serving files like this, or if there are other ways to further optimize COPCs.s</p>
+<p><a name="cors">1</a>: I will never explain CORS. You can Google it, though.</p>
+</div>
+		</div>
+	</body>
+</html>
