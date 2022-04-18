@@ -125,6 +125,10 @@ $ conda activate env_name  <span class="c1"># activate environment</span>
 
 <p>Similar to venv, the first command creates the environment and the second activates it. Unlike venv, conda environments are created and accessible <strong>globally</strong>, meaning you can easily activate conda environments wherever they are needed. New packages are then installed through <code>conda install</code> rather than pip, although you can also install packages using pip. The nice thing about conda environments is that all conda-installed packages are reconciled against each other to ensure compatibility. However, the annoying thing is that this reconciliation can take...</p>
 <p>...f o r e v e r.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I was going to use this in my slides but lately one cannot even `conda install gdal` from conda-forge :-( <a href="https://t.co/60XW5dIytN">pic.twitter.com/60XW5dIytN</a></p>&mdash; Filipe Fernandes (I am 😷 under that 🪣) (@ocefpaf) <a href="https://twitter.com/ocefpaf/status/753992589938860032?ref_src=twsrc%5Etfw">July 15, 2016</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>(Ignore the text in the tweet above, I'm pretty sure it works in conda now)</p>
 <p>A major reason for geospatial developers to consider conda environments is that <a href="https://gdal.org/">GDAL</a> <a href="https://gdal.org/api/python.html">python bindings</a> are notoriously difficult to install correctly through pip. If you run into issues creating a functional environment containing GDAL python bindings, consider installing in a conda environment with <code>conda install -c conda-forge gdal</code>.</p>
 <p>conda definitely has its place, and that is where:</p>
 <ul>
