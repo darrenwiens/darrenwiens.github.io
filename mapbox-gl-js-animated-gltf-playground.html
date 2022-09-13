@@ -28,17 +28,16 @@
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
 
 		<!-- Feeds -->
-<link href="https://darrenwiens.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Darren Wiens Full RSS Feed" />
 
 		<!-- Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-207412040-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-ga('create', 'UA-207412040-1', 'auto');
-ga('send', 'pageview');
+  gtag('config', 'UA-207412040-1');
 </script>
 	</head>
 
@@ -66,7 +65,7 @@ ga('send', 'pageview');
 					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
 						<i class="fa fa-github"></i>
 					</a>
-			<a class="sidebar-social-item" href="https://darrenwiens.github.io/feeds/all.rss.xml">
+			<a class="sidebar-social-item" href="https://darrenwiens.github.io/None">
 				<i class="fa fa-rss"></i>
 			</a>
 		</nav>
@@ -86,28 +85,40 @@ ga('send', 'pageview');
 <ol>
 <li>Create the AnimationMixer:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>    <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">,</span>
-        <span class="n">function</span> <span class="p">(</span><span class="n">gltf</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">this</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span>
-            <span class="n">mixer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">THREE</span><span class="o">.</span><span class="n">AnimationMixer</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span>
-            <span class="n">mixer</span><span class="o">.</span><span class="n">clipAction</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">animations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">setDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">play</span><span class="p">();</span>
-        <span class="p">}</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
-    <span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="n">model</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">function</span><span class="w"> </span><span class="p">(</span><span class="n">gltf</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">this</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">mixer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">THREE</span><span class="o">.</span><span class="n">AnimationMixer</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">mixer</span><span class="o">.</span><span class="n">clipAction</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">animations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">setDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">play</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 
 <ol>
 <li>As time passes, update the mixer to a new frame in the animation:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">mixer</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">const</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="n">now</span><span class="p">();</span>
-    <span class="n">mixer</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">time</span> <span class="o">-</span> <span class="n">prevTime</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.001</span><span class="p">);</span>
-    <span class="n">prevTime</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mixer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Date</span><span class="o">.</span><span class="n">now</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">mixer</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prevTime</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 
 <p>That's more or less it. You can adjust these values to play other animations contained within the model, modify the animation speed/direction, etc.</p>
 <p>I'm always interested to see how you use 3D models and motion in web maps, so let me know on <a href="https://twitter.com/dkwiens">Twitter</a> if you do!</p>
+
+		<span class="post-tags">
+			Tags:
+			<ul>
+					<li><a href="https://darrenwiens.github.io/tag/javascript.html">javascript</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/threejs.html">threejs</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/mapbox.html">mapbox</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/mapbox-gl-js.html">mapbox gl js</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/animation.html">animation</a></li>
+			</ul>
+		</span>
+
 </div>
 		</div>
 	</body>

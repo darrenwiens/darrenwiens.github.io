@@ -28,17 +28,16 @@
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
 
 		<!-- Feeds -->
-<link href="https://darrenwiens.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Darren Wiens Full RSS Feed" />
 
 		<!-- Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-207412040-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-ga('create', 'UA-207412040-1', 'auto');
-ga('send', 'pageview');
+  gtag('config', 'UA-207412040-1');
 </script>
 	</head>
 
@@ -66,7 +65,7 @@ ga('send', 'pageview');
 					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
 						<i class="fa fa-github"></i>
 					</a>
-			<a class="sidebar-social-item" href="https://darrenwiens.github.io/feeds/all.rss.xml">
+			<a class="sidebar-social-item" href="https://darrenwiens.github.io/None">
 				<i class="fa fa-rss"></i>
 			</a>
 		</nav>
@@ -89,6 +88,20 @@ ga('send', 'pageview');
 <li>creates a <code>worker</code> lambda function, which executes the business logic of the slash command. When the slash command is first invoked, this lambda displays a modal window. When the modal is submitted, this lambda is invoked again to create and return an ephemeral Slack message to the channel, containing the text contents of the modal window.</li>
 </ul>
 <p>Hopefully you find this CDK template useful. I'll be interested to hear if you make use of it!</p>
+
+		<span class="post-tags">
+			Tags:
+			<ul>
+					<li><a href="https://darrenwiens.github.io/tag/slack.html">slack</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/api.html">api</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/serverless.html">serverless</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/python.html">python</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/template.html">template</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/aws.html">aws</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/lambda.html">lambda</a></li>
+			</ul>
+		</span>
+
 </div>
 		</div>
 	</body>

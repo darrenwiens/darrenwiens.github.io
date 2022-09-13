@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="Video to 3D Model" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://darrenwiens.github.io/video-to-3d-model.html" />
+		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>Darren Wiens</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-207412040-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-207412040-1');
+</script>
+	</head>
+
+	<body class="theme-base-08">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="https://darrenwiens.github.io/images/face.png">
+					Darren Wiens
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+			<a class="sidebar-social-item" href="https://darrenwiens.github.io/None">
+				<i class="fa fa-rss"></i>
+			</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">Video to 3D Model</h1>
+	<span class="post-date">Tue 13 September 2022</span>
+	<p>I recently attended <a href="https://2022.foss4g.org/">FOSS4G</a> in Italy, a country filled with objects begging to be scanned for 3D models (e.g., the <a href="https://twitter.com/dkwiens/status/1561019714196967424">Colosseum</a> and <a href="https://twitter.com/dkwiens/status/1562011525673517057">David</a>)</p>
+<p>My go-to 3D scanning app is <a href="https://poly.cam/">Polycam</a>, which has modes for continuous LiDAR collection or using inidividual photos. I often use the photogrammtery mode, as it creates nice models in a variety of conditions/distances. However, snapping ~50 images can be time consuming.</p>
+<p>Is there a faster way to create nice 3D models? The answer is <strong>yes</strong>, and it's surprisingly easy.</p>
+<h2>Collect Video</h2>
+
+<p>Depending on the size of the object to be scanned (i.e. if the object is relatively small), collecting imagery in the form of a video can be a huge time saving. Simply record the object from a variety of angles. For example, I filmed this statue of Machiavelli by walking across the front of it:</p>
+<video width="320" height="428" controls>
+  <source src="https://darrenwiens.github.io/images/machiavelli_orig_480.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<h2>Sample Video to Images</h2>
+
+<p>Send the video to your desktop. Most photogrammetry processing tools accept individual images as input, not video, so I sample the video at some time interval into a directory of images. In this case, I extract one video frame every second into a directory of JPEG files, using <a href="https://ffmpeg.org/">ffmpeg</a>:</p>
+<p><code>ffmpeg -i machiavelli.MOV -vf fps=1 images/out%d.jpg</code></p>
+<p>Note: if you save the images to a folder named <code>images</code>, it will work nicely in the OpenDroneMap method below.</p>
+<h2>Method #1: OpenDroneMap</h2>
+
+<p><a href="https://opendronemap.org/odm/">OpenDroneMap</a>, most often marketed for use with top-down UAV imagery, makes it <em>so</em> easy, even for perspective/oblique imagery. The only dependency is <a href="https://www.docker.com/">docker</a>. With docker installed, assuming your images are in <code>/my/project/images</code>, run:</p>
+<p><code>docker run -ti --rm -v /my/project:/datasets/code opendronemap/odm --project-path /datasets</code></p>
+<p>Once complete, if successful, there should be a variety of outputs within your project directory, one of which should be a textured OBJ file:</p>
+<video width="320" height="240" controls>
+  <source src="https://darrenwiens.github.io/images/machiavelli_odm_480.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<h2>Method #2: Polycam Web App</h2>
+
+<p>The <a href="https://poly.cam/">Polycam</a> web app will also process a selection of images. I currently have a subscription to Polycam - I'm not entirely sure if photo upload is available in the free version. Once processed, the web app also allows easy sharing, like below:</p>
+<iframe src="https://poly.cam/capture/b9e097cf-6696-46c7-ac1c-0300522b8d71" title="polycam capture viewer" style="height:60vmin;width:100%;max-height:720px;max-width:1280px;min-height:280px;min-width:280px" frameborder="0"></iframe>
+
+<h2>That's it.</h2>
+
+<p>No doubt there are other methods for quickly collecting and processing video/images to 3D models. Let me know your favourite on <a href="https://twitter.com/dkwiens">Twitter</a>!</p>
+
+		<span class="post-tags">
+			Tags:
+			<ul>
+					<li><a href="https://darrenwiens.github.io/tag/odm.html">odm</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/opendronemap.html">opendronemap</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/video.html">video</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/3d.html">3d</a></li>
+			</ul>
+		</span>
+
+</div>
+		</div>
+	</body>
+</html>
