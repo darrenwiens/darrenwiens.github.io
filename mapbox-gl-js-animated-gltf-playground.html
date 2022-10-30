@@ -62,6 +62,9 @@
 					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
 						<i class="fa fa-twitter"></i>
 					</a>
+					<a class="sidebar-social-item" href="https://fosstodon.org/@dkwiens" target="_blank">
+						<i class="fa fa-mastodon"></i>
+					</a>
 					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
 						<i class="fa fa-github"></i>
 					</a>
@@ -85,24 +88,24 @@
 <ol>
 <li>Create the AnimationMixer:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="n">model</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="n">function</span><span class="w"> </span><span class="p">(</span><span class="n">gltf</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="n">this</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span><span class="w"></span>
-<span class="w">            </span><span class="n">mixer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">THREE</span><span class="o">.</span><span class="n">AnimationMixer</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span><span class="w"></span>
-<span class="w">            </span><span class="n">mixer</span><span class="o">.</span><span class="n">clipAction</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">animations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">setDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">play</span><span class="p">();</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code>    <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">function</span> <span class="p">(</span><span class="n">gltf</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span>
+            <span class="n">mixer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">THREE</span><span class="o">.</span><span class="n">AnimationMixer</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">scene</span><span class="p">);</span>
+            <span class="n">mixer</span><span class="o">.</span><span class="n">clipAction</span><span class="p">(</span><span class="n">gltf</span><span class="o">.</span><span class="n">animations</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">setDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">play</span><span class="p">();</span>
+        <span class="p">}</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+    <span class="p">);</span>
 </code></pre></div>
 
 <ol>
 <li>As time passes, update the mixer to a new frame in the animation:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mixer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Date</span><span class="o">.</span><span class="n">now</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">mixer</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">prevTime</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">mixer</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Date</span><span class="o">.</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">mixer</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">time</span> <span class="o">-</span> <span class="n">prevTime</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.001</span><span class="p">);</span>
+    <span class="n">prevTime</span> <span class="o">=</span> <span class="n">time</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>That's more or less it. You can adjust these values to play other animations contained within the model, modify the animation speed/direction, etc.</p>
