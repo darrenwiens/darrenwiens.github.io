@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="3DEP Elevation Source for Mapbox" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://darrenwiens.github.io/3dep-elevation-source-for-mapbox.html" />
+		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>Darren Wiens</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-207412040-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-207412040-1');
+</script>
+	</head>
+
+	<body class="theme-base-08">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="https://darrenwiens.github.io/images/face.png">
+					Darren Wiens
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a class="sidebar-social-item" href="https://fosstodon.org/@dkwiens" target="_blank">
+						<i class="fa fa-mastodon"></i>
+					</a>
+					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+			<a style="display:none" class="sidebar-social-item" href="https://darrenwiens.github.io/None">
+				<i class="fa fa-rss"></i>
+			</a>
+			<a rel="me" style="display:none" href="https://fosstodon.org/@dkwiens">Mastodon</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">3DEP Elevation Source for Mapbox</h1>
+	<span class="post-date">Sat 26 November 2022</span>
+	<p>I've been looking into the <a href="https://planetarycomputer.microsoft.com/">Microsoft Planetary Computer</a> (MSPC) APIs lately, which include the <a href="https://planetarycomputer.microsoft.com/docs/reference/stac/">STAC API</a> (an API for querying and retrieving <a href="https://stacspec.org/en">STAC</a> elements in the catalog) and <a href="https://planetarycomputer.microsoft.com/docs/reference/data/">Data API</a> (an API with lots of helper endpoints for STAC Item metadata and rendering). As I'm more or less familiar with STAC APIs, I've been specifically intrigued by the Data API.</p>
+<p>This API includes endpoints for preview generation. For example, this preview, which uses the API as the image source:</p>
+<p><img src="https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=landsat-c2-l2&item=LC09_L2SP_189052_20221119_02_T1&assets=red&assets=green&assets=blue&color_formula=gamma%20RGB%202.7,%20saturation%201.5,%20sigmoidal%20RGB%2015%200.55&nodata=0&request_entity=explorer" /></p>
+<p>The API also has a handy endpoint for generating a map for any STAC Item in the catalog.</p>
+<iframe src="https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=landsat-c2-l2&item=LC09_L2SP_189052_20221119_02_T1" style="aspect-ratio: 2 / 1; width: 100%"></iframe>
+
+<p>There is a whole section in the API for generating and consuming mosaics, as well. I shared an example of consuming a mosaic of the <a href="https://planetarycomputer.microsoft.com/dataset/3dep-lidar-dsm">USGS 3DEP Lidar Digital Surface Model</a> dataset as an elevation source in <a href="https://docs.mapbox.com/mapbox-gl-js/guides/">Mapbox GL JS</a>, and will explain the "elbow grease" I found necessary to make it happen:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">DYK: with a little elbow grease, you can use <a href="https://twitter.com/Microsoft?ref_src=twsrc%5Etfw">@Microsoft</a> Planetary Computer 3DEP LiDAR DSM as an elevation source in <a href="https://twitter.com/Mapbox?ref_src=twsrc%5Etfw">@Mapbox</a>?<a href="https://t.co/l1vyquPTba">https://t.co/l1vyquPTba</a> <a href="https://t.co/HCKzOTEjYs">pic.twitter.com/HCKzOTEjYs</a></p>&mdash; Darren Wiens (@dkwiens) <a href="https://twitter.com/dkwiens/status/1596649426013290496?ref_src=twsrc%5Etfw">November 26, 2022</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>The first step in consuming any mosaic from MSPC is to register a search, which (I assume) triggers the generation of a tilejson document for later. You do so by sending a <code>POST</code> request to <a href="https://planetarycomputer.microsoft.com/api/data/v1/mosaic/register">the register endpoint</a>, which will respond with a value for the <code>searchid</code>. You can then use the <code>searchid</code> in any of the various <code>tiles</code> endpoints in the Data API.</p>
+<p>Ideally, we could simply make requests to one of the <code>tiles</code> endpoints within our client (in this case, Mapbox GL JS) to retrieve terrain tiles. Unfortunately, Mapbox terrain tiles must be in either <a href="https://github.com/tilezen/joerd/blob/master/docs/formats.md">terrarium</a> or <a href="https://docs.mapbox.com/data/tilesets/reference/mapbox-terrain-rgb-v1/">mapbox</a> encoding, which I don't <em>think</em> are available directly from the API, although I could be wrong.</p>
+<p>There are a multitude of parameters available within the <code>tiles</code> endpoints, which may allow encoding the tiles, but I found creating a proxy API the faster route to glory. You can find an example <a href="https://fastapi.tiangolo.com/">FastAPI</a> implementation <a href="https://gist.github.com/darrenwiens/e6089e6f99aece3ddfb4d265e5eeb122">here</a>, which accepts xyz tile coordinates, requests the necessary tile from MSPC, applies Terrarium encoding, and returns the encoded tile.</p>
+<p>We can then hit the proxy API from the client. I've made a sample client <a href="https://gist.github.com/darrenwiens/3af685b3b5d4afe31640189f450b0293">here</a>, just substitute your Mapbox token and API url.</p>
+<p>That's it! It's a lot to digest, but have a look at the code and see if you can make sense of it. Let me know on <a href="https://twitter.com/dkwiens">Twitter</a> or <a href="https://fosstodon.org/@dkwiens">Mastodon</a> how it goes!</p>
+
+		<span class="post-tags">
+			Tags:
+			<ul>
+					<li><a href="https://darrenwiens.github.io/tag/mapbox.html">mapbox</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/3dep.html">3dep</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/lidar.html">lidar</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/microsoft-planetary-computer.html">microsoft planetary computer</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/python.html">python</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/stac.html">stac</a></li>
+			</ul>
+		</span>
+
+</div>
+		</div>
+	</body>
+</html>
