@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="Dall-E Slack Slash Command" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://darrenwiens.github.io/dall-e-slack-slash-command.html" />
+		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>Darren Wiens</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-207412040-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-207412040-1');
+</script>
+	</head>
+
+	<body class="theme-base-08">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="https://darrenwiens.github.io/images/face.png">
+					Darren Wiens
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a class="sidebar-social-item" href="https://fosstodon.org/@dkwiens" target="_blank">
+						<i class="fa fa-mastodon"></i>
+					</a>
+					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+			<a style="display:none" class="sidebar-social-item" href="https://darrenwiens.github.io/None">
+				<i class="fa fa-rss"></i>
+			</a>
+			<a rel="me" style="display:none" href="https://fosstodon.org/@dkwiens">Mastodon</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">Dall-E Slack Slash Command</h1>
+	<span class="post-date">Fri 30 December 2022</span>
+	<p>I've been looking into <a href="https://openai.com/">OpenAI</a>'s API platform, which includes <a href="https://beta.openai.com/docs/guides/completion">text completion</a>, <a href="https://beta.openai.com/docs/guides/code">code completion</a>, <a href="https://beta.openai.com/docs/guides/embeddings">text processing</a>, and more. This post will use the <a href="https://beta.openai.com/docs/guides/images">Images API</a> to generate images from a text prompt, using the wildly popular Dall-E model (try it <a href="https://labs.openai.com/">here</a>), and, as an added bonus, we will deploy it in <a href="https://slack.com/">Slack</a> as a slash command.</p>
+<p>The Images API is not free, although you can sign up for a 30-day trial. It is reasonably <a href="https://openai.com/api/pricing/">priced</a> with careful consideration for how it will be used. In our case, we will allow individual requests of images sized 256 x 256 pixels, so that will be $0.016 per request (as of writing).</p>
+<p>You can sign up for OpenAI's APIs <a href="https://beta.openai.com/signup">here</a>.</p>
+<p>Within your account, create an API key and copy it for later. You can also set a monthly billing limit, just for added peace of mind.</p>
+<p>We will use a Slack slash command as the front end for this app. The basic steps are:</p>
+<ol>
+<li>Create a slash command through the Slack UI (<a href="https://api.slack.com/interactivity/slash-commands">instructions</a>). Because the app uses modals, you must enable interactivity once you've created the slash command. You can enter any value for the slash command and interactivity request URLs (we will create them later). Install the slash command to your Slack workspace, and make note of the <code>Bot User OAuth Token</code> which will be used in the environment variables below.</li>
+<li>Create the backend app. I used the <a href="https://github.com/darrenwiens/slack-app-template">template repo</a> described <a href="https://darrenwiens.github.io/aws-slack-slash-command-cdk-template.html">here</a> to create the backend (<a href="https://github.com/darrenwiens/dalle-slack">repo</a>), which consists of an AWS <a href="https://aws.amazon.com/api-gateway/">API Gateway</a> and serverless <a href="https://aws.amazon.com/lambda/">Lambda</a> Functions.</li>
+<li>Include some <a href="https://github.com/darrenwiens/dalle-slack/blob/main/slack_app/slack_app_stack.py#L15-L53">fanciness</a> to install the <code>openai</code> and <code>numpy</code> dependencies in the <code>worker</code> lambda function as <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda Layers</a>. </li>
+<li>Modify the <code>worker</code> lambda to include a request to the OpenAI Images API, and return the image to Slack (<a href="https://github.com/darrenwiens/dalle-slack/blob/main/resources/worker_handler.py#L80-L88">code</a>).</li>
+<li>Deploy. The repo uses <a href="https://aws.amazon.com/cdk/">CDK</a> as the deployment mechanism, so once you've modified your <a href="https://github.com/darrenwiens/dalle-slack/blob/main/.envrc_template">environment variables</a> and anything else to your liking, simply run <code>cdk deploy</code> to deploy to AWS. Once deployed, you should be provided the API URL, which you can use as the slash command and interactivity request URLs above.</li>
+</ol>
+<p>My backend app repo is <a href="https://github.com/darrenwiens/dalle-slack">here</a>.</p>
+<p>The final app looks like so:</p>
+<p><img alt="Dall-E Slack example" src="https://darrenwiens.github.io/images/dalle_slack.gif"></p>
+<p>That's all. Have fun using Dall-E (or anything else) in Slack through slash commands! Get in touch with me on <a href="https://twitter.com/dkwiens">Twitter</a> or <a href="https://fosstodon.org/@dkwiens">Mastodon</a> if you want to talk more about it!</p>
+
+		<span class="post-tags">
+			Tags:
+			<ul>
+					<li><a href="https://darrenwiens.github.io/tag/python.html">python</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/slack.html">slack</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/aws.html">aws</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/openai.html">openai</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/dall-e.html">dall-e</a></li>
+			</ul>
+		</span>
+
+</div>
+		</div>
+	</body>
+</html>
