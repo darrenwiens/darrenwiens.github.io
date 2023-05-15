@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+	<head>
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<!-- Metadata -->
+	<meta name="description" content="">
+	<meta property="og:description" content="">
+	<meta property="og:title" content="DEM to Horizon Workflow" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://darrenwiens.github.io/dem-to-horizon-workflow.html" />
+		<meta property="og:image" content="https://darrenwiens.github.io/images/face.png" />
+
+		<!-- Enable responsiveness on mobile devices-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+		<title>Darren Wiens</title>
+
+		<!-- CSS -->
+		<link href="//fonts.googleapis.com/" rel="dns-prefetch">
+		<link href="//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Abril+Fatface|PT+Sans:400,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/poole.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/hyde.css" />
+		<link rel="stylesheet" href="https://darrenwiens.github.io/theme/css/syntax.css" />
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" crossorigin="anonymous">
+
+		<!-- Feeds -->
+
+		<!-- Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-207412040-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-207412040-1');
+</script>
+	</head>
+
+	<body class="theme-base-08">
+<div class="sidebar">
+	<div class="container sidebar-sticky">
+		<div class="sidebar-about">
+
+			<h1>
+				<a href="/">
+					<img class="profile-picture" src="https://darrenwiens.github.io/images/face.png">
+					Darren Wiens
+				</a>
+			</h1>
+			<p class="lead"></p>
+			<p class="lead"> </p>
+			<p></p>
+		</div>
+			<ul class="sidebar-nav">
+			</ul>
+		<nav class="sidebar-social">
+					<a class="sidebar-social-item" href="http://twitter.com/dkwiens" target="_blank">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a class="sidebar-social-item" href="https://fosstodon.org/@dkwiens" target="_blank">
+						<i class="fa fa-mastodon"></i>
+					</a>
+					<a class="sidebar-social-item" href="http://github.com/darrenwiens" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+			<a style="display:none" class="sidebar-social-item" href="https://darrenwiens.github.io/None">
+				<i class="fa fa-rss"></i>
+			</a>
+			<a rel="me" style="display:none" href="https://fosstodon.org/@dkwiens">Mastodon</a>
+		</nav>
+	</div>
+</div>		<div class="content container">
+<div class="post">
+	<h1 class="post-title">DEM to Horizon Workflow</h1>
+	<span class="post-date">Sat 25 March 2023</span>
+	<p>I spent last week surrounded by the massive mountains in beautiful Banff, AB. Rather than just <em>enjoy</em> myself, I started concocting a geospatial side project, the first step of which involves generating horizon profiles on demand. So, the question here is: can I generate a horizon profile panorama only given a digital elevation model (DEM) and point coordinates for any observer location? I'm happy to report that the answer is: yes.</p>
+<p>The steps to get there are:</p>
+<ul>
+<li>download a DEM from somewhere. I used a DEM from the <a href="https://open.canada.ca/data/en/dataset/7f245e4d-76c2-4caa-951a-45d1d2051333">Canadian Digital Elevation Model</a> dataset, but you could use anything for your desired area.</li>
+<li>if the DEM is defined in a geographic coordinate reference system, project it. I used QGIS to reproject my DEM.</li>
+<li>
+<p>follow along in my notebook <a href="https://gist.github.com/darrenwiens/518113afa8c85e324dbd044ad898a862">here</a>, which demonstrates how to:</p>
+<ul>
+<li>define the observer position</li>
+<li>create viewshed, distance, angle, and perspective layers</li>
+<li>create a horizon profile panorama using the layers creating above</li>
+</ul>
+</li>
+</ul>
+<p>The result should be a scatter plot showing a horion profile panorama, which you can overlay over your own oblique imagery or, for example, Google Street View imagery.</p>
+<p><img alt="DEM to Horizon Panorama example" src="https://darrenwiens.github.io/images/horizon.gif"></p>
+<p>That's it! Enjoy using the DEM to horizon workflow. If you have any questions, reach out to me on <a href="https://twitter.com/dkwiens">Twitter</a> or <a href="https://fosstodon.org/@dkwiens">Mastodon</a>.</p>
+
+		<span class="post-tags">
+			Tags:
+			<ul>
+					<li><a href="https://darrenwiens.github.io/tag/python.html">python</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/gdal.html">gdal</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/numpy.html">numpy</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/dem.html">DEM</a></li>
+					<li><a href="https://darrenwiens.github.io/tag/elevation.html">elevation</a></li>
+			</ul>
+		</span>
+
+</div>
+		</div>
+	</body>
+</html>
